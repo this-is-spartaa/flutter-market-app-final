@@ -89,8 +89,8 @@ class MyApp extends StatelessWidget {
           }),
         ),
       ),
-      // home: WelcomePage(),
-      home: HomePage(),
+      home: WelcomePage(),
+      // home: HomePage(),
       // home: ChatDetailPage(),
     );
   }

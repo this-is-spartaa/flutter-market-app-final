@@ -4,6 +4,10 @@ import 'package:flutter_market_app/ui/widgets/nickname_text_form_field.dart';
 import 'package:flutter_market_app/ui/widgets/pw_text_form_field.dart';
 
 class JoinPage extends StatefulWidget {
+  JoinPage(this.address);
+
+  final String address;
+
   @override
   State<JoinPage> createState() => _JoinPageState();
 }
@@ -33,6 +37,7 @@ class _JoinPageState extends State<JoinPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.address);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
