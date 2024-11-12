@@ -14,7 +14,7 @@ void main() {
     final fileModel = await fileRepository.upload(
       bytes: bytes,
       filename: 'welcome.png',
-      mimeTyme: 'image/png',
+      mimeType: 'image/png',
     );
     expect(fileModel == null, false);
     expect(fileModel!.originName, 'welcome.png');

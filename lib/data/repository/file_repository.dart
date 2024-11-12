@@ -7,13 +7,13 @@ class FileRepository extends BaseRemoteRepository {
   Future<FileModel?> upload({
     required List<int> bytes,
     required String filename,
-    required String mimeTyme,
+    required String mimeType,
   }) async {
     final body = FormData.fromMap({
       'file': MultipartFile.fromBytes(
         bytes,
         filename: filename,
-        contentType: DioMediaType.parse(mimeTyme),
+        contentType: DioMediaType.parse(mimeType),
       ),
     });
 
