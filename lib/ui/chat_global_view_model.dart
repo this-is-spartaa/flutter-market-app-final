@@ -26,7 +26,9 @@ class ChatGlobalState {
 class ChatGlobalViewModel extends Notifier<ChatGlobalState> {
   @override
   ChatGlobalState build() {
-    fetchList();
+    fetchList().then((e) {
+      connectSocket();
+    });
     return ChatGlobalState(
       chatRooms: [],
       chatRoom: null,
@@ -77,6 +79,61 @@ class ChatGlobalViewModel extends Notifier<ChatGlobalState> {
     }
 
     return null;
+  }
+
+  ChatSocket? chatSocket;
+
+  void connectSocket() {
+    chatSocket = chatRepository.connectSocket();
+    final subscription = chatSocket!.messageStream.listen((chatRoom) {
+      // 1. chatRooms 업데이트
+      final chatRooms = state.chatRooms;
+      final target =
+          chatRooms.where((e) => e.roomId == chatRoom.roomId).toList();
+      if (target.isNotEmpty) {
+        final newList = chatRooms.map((e) {
+          if (e.roomId == chatRoom.roomId) {
+            return chatRoom;
+          }
+          return e;
+        }).toList();
+        state = state.copyWith(
+          chatRooms: newList,
+        );
+      } else {
+        state = state.copyWith(
+          chatRooms: [...chatRooms, chatRoom],
+        );
+      }
+      // 2. chatRoom 업데이트
+      final room = state.chatRoom;
+      if (room?.roomId == chatRoom.roomId) {
+        //
+        state = state.copyWith(
+          chatRoom: ChatRoom(
+            roomId: room!.roomId,
+            product: room.product,
+            sender: room.sender,
+            messages: [...room.messages, chatRoom.messages.first],
+            createdAt: room.createdAt,
+          ),
+        );
+      }
+    });
+
+    ref.onDispose(() {
+      subscription.cancel();
+    });
+  }
+
+  void send(String content) {
+    final room = state.chatRoom;
+    if (room != null) {
+      chatSocket?.sendMessage(
+        content: content,
+        roomId: room.roomId,
+      );
+    }
   }
 }
 

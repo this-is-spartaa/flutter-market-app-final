@@ -8,6 +8,8 @@ abstract class BaseRemoteRepository {
   //
   Dio get client => _client;
 
+  String? get bearerToken => interceptor.bearerToken;
+
   static Dio _client = Dio(
     BaseOptions(
       baseUrl: 'http://192.168.219.102:8080',

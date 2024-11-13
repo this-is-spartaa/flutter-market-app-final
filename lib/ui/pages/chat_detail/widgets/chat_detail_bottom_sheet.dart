@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_market_app/ui/chat_global_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChatDetailBottomSheet extends StatefulWidget {
+class ChatDetailBottomSheet extends ConsumerStatefulWidget {
   ChatDetailBottomSheet(this.bottomPadding);
 
   final double bottomPadding;
 
   @override
-  State<ChatDetailBottomSheet> createState() => _ChatDetailBottomSheetState();
+  ConsumerState<ChatDetailBottomSheet> createState() =>
+      _ChatDetailBottomSheetState();
 }
 
-class _ChatDetailBottomSheetState extends State<ChatDetailBottomSheet> {
+class _ChatDetailBottomSheetState extends ConsumerState<ChatDetailBottomSheet> {
   final controller = TextEditingController();
 
   @override
@@ -19,7 +22,12 @@ class _ChatDetailBottomSheetState extends State<ChatDetailBottomSheet> {
   }
 
   void onSend() {
-    print('온샌드 터치됨');
+    final vm = ref.read(chatGlobalViewModel.notifier);
+    final text = controller.text;
+    if (text.trim().isNotEmpty) {
+      vm.send(text);
+      controller.text = '';
+    }
   }
 
   @override
