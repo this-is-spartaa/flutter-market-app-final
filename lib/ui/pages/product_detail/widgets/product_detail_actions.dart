@@ -42,7 +42,7 @@ class ProductDetailActions extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return ProductWritePage();
+                    return ProductWritePage(state);
                   },
                 ),
               );

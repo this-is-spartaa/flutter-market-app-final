@@ -20,7 +20,7 @@ class HomeFloatingActionButton extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return ProductWritePage();
+                  return ProductWritePage(null);
                 },
               ),
             );
