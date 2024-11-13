@@ -11,7 +11,7 @@ class Address {
   int id;
   String fullName;
   String displayName;
-  bool defaultYn;
+  bool? defaultYn;
 
   Address({
     required this.id,
