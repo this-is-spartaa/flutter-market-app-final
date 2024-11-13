@@ -5,13 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   //
-  test('ProductRepository : getProductSummaryList test', () async {
-    final productRepository = ProductRepository();
+  final userRepository = UserRepository();
+  final productRepository = ProductRepository();
 
+  test('ProductRepository : getProductSummaryList test', () async {
     final result1 = await productRepository.getProductSummaryList(1);
     expect(result1, null);
 
-    final userRepository = UserRepository();
     final addressRepository = AddressRepository();
 
     await userRepository.login(username: 'tester', password: '1111');
@@ -24,5 +24,13 @@ void main() {
     for (var v in result2!) {
       print(v.toJson());
     }
+  });
+
+  test('ProductRepository : fetchDetail test', () async {
+    // 1
+    await userRepository.login(username: 'tester', password: '1111');
+    final product = await productRepository.fetchDetail(1);
+    expect(product == null, false);
+    print(product?.toJson());
   });
 }
